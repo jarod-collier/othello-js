@@ -34,14 +34,23 @@ function loadFile(file) {
  * Driver function.  "main" method, if you will.
  */
 function start() {
-    // Local variables
+
     let height = prompt('What height for your board? ');
+
+
+
     let width = prompt('What width for your board? ');
-    let color = prompt("What color goes first, B or W? ");
+
+    let color = "";
+    color = prompt("What color goes first, B or W? ");
+    let upperCaseColor = color.toUpperCase();
+    color = upperCaseColor;
 
     // SYNCHRONOUSLY read from keyboard
     console.log('Creating a board with size', height, 'x', width, 'where',
         color, "goes first.");
+
+    console.log("If at any point you would like to stop playing, enter in (0, 0) for the row and column");
 
     // Create new board object
     let myBoard = new board(height, width);
@@ -58,11 +67,17 @@ function start() {
             row = parseInt(prompt("Row "));
             col = parseInt(prompt("Col "));
 
-            if (row < 1 || row > myBoard.height || col < 1 || col > myBoard.width) {
-                console.log("Sorry, invalid input. Try again.");
+            // checks for row and column being in the correct range
+            if (row < 0 || row > myBoard.height || col < 0 || col > myBoard.width) {
+                console.log("Sorry, your row and column were not valid entries.");
                 continue;
             }
-            //TODO check to see if this is bogus or not
+
+            // Exits the program if the user enters 0 and 0
+            if (row == 0 && col == 0) {
+                console.log("Game is now ending. Thanks for playing!");
+                process.exit();
+            }
             row--;
             col--;
             if (!myBoard.isValid(row, col, color)) {

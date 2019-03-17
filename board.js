@@ -35,15 +35,25 @@ module.exports = class Board {
      * Print a representation of the board to the terminal.
      */
     printBoard() {
+
+        // Prints the numbers along the top
+        let topNumbers = "\t";
+        for (let i = 0; i < this.width; i++) {
+            topNumbers += i + 1 + '\t';
+        }
+
+        console.log(topNumbers);
+
+        let eachRow = "";
         for (let i = 0; i < this.height; ++i) {
+            eachRow = i + 1 + "\t";
             for (let j = 0; j < this.width; ++j) {
-                if (this.board[i][j] == EMPTY) {
-                    process.stdout.write(EMPTY + '\t')
-                } else {
-                    process.stdout.write(this.board[i][j] + "\t")
-                }
+                eachRow += this.board[i][j] + "\t";
+
+                // I want to keep this here for reference so I know another way to write things to the console
+                // process.stdout.write(this.board[i][j] + "\t")
             }
-            console.log();
+            console.log(eachRow);
         }
     }
 
