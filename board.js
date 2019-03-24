@@ -12,18 +12,18 @@ module.exports = class Board {
     /**
      * Construct the object with required state
      */
-    constructor(height, width) {
-        this.height = height;
-        this.width = width;
+    constructor(size) {
+        this.size = size;
+        //this.width = width;
         this.board = [];
-        for (let i = 0; i < this.height; ++i) {
+        for (let i = 0; i < this.size; ++i) {
             let tmp = [];
-            for (let j = 0; j < this.width; ++j) {
-                if ((i == (height / 2) - 1 && j == (width / 2) - 1) ||
-                    (i == (height / 2) && j == (width / 2))) {
+            for (let j = 0; j < this.size; ++j) {
+                if ((i == (size / 2) - 1 && j == (size / 2) - 1) ||
+                    (i == (size / 2) && j == (size / 2))) {
                     tmp.push(BLACK);
-                } else if ((i == (height / 2) && j == (width / 2) - 1) ||
-                    (i == (height / 2) - 1 && j == (width / 2))) {
+                } else if ((i == (size / 2) && j == (size / 2) - 1) ||
+                    (i == (size / 2) - 1 && j == (size / 2))) {
                     tmp.push(WHITE);
                 } else tmp.push(EMPTY);
             }
@@ -38,16 +38,16 @@ module.exports = class Board {
 
         // Prints the numbers along the top
         let topNumbers = "\t";
-        for (let i = 0; i < this.width; i++) {
+        for (let i = 0; i < this.size; i++) {
             topNumbers += i + 1 + '\t';
         }
 
         console.log(topNumbers);
 
         let eachRow = "";
-        for (let i = 0; i < this.height; ++i) {
+        for (let i = 0; i < this.size; ++i) {
             eachRow = i + 1 + "\t";
-            for (let j = 0; j < this.width; ++j) {
+            for (let j = 0; j < this.size; ++j) {
                 eachRow += this.board[i][j] + "\t";
 
                 // I want to keep this here for reference so I know another way to write things to the console
@@ -66,26 +66,32 @@ module.exports = class Board {
      */
 
     isValid(row, col, disc) {
-
         if (this.board[row][col] == EMPTY) {
 
             let validDirection = false;
 
             // Checks for disc in random direction
             if (disc == BLACK) {
-                if ((this.board[row][col - 1] == WHITE && this.board[row][col - 2] != EMPTY) ||
-                    (this.board[row - 1][col - 1] == WHITE && this.board[row - 2][col - 2] != EMPTY) ||
-                    (this.board[row - 1][col] == WHITE && this.board[row - 2][col] != EMPTY) ||
-                    (this.board[row - 1][col + 1] == WHITE && this.board[row - 2][col + 2] != EMPTY) ||
-                    (this.board[row][col + 1] == WHITE && this.board[row][col + 2] != EMPTY) ||
-                    (this.board[row + 1][col + 1] == WHITE && this.board[row + 2][col + 2] != EMPTY) ||
-                    (this.board[row + 1][col] == WHITE && this.board[row + 2][col] != EMPTY) ||
-                    (this.board[row + 1][col - 1] == WHITE && this.board[row + 2][col - 2] != EMPTY)) {
-                } else {
-                    return false;
-                }
+
+		if(!(row - 1 < 0) && !(col - 1 < 0) && !(row - 2 < 0) && !(col - 2 < 0) && !(row + 1 > this.size - 1) && !(row + 2 > this.size - 1) && !(row + 1 > this.size -1) && !(col + 1 > this.size - 1) && !(col + 2 > this.size - 1)){
+
+                	if ((this.board[row][col - 1] == WHITE && this.board[row][col - 2] != EMPTY) ||
+                    	(this.board[row - 1][col - 1] == WHITE && this.board[row - 2][col - 2] != EMPTY) ||
+                    	(this.board[row - 1][col] == WHITE && this.board[row - 2][col] != EMPTY) ||
+                    	(this.board[row - 1][col + 1] == WHITE && this.board[row - 2][col + 2] != EMPTY) ||
+                    	(this.board[row][col + 1] == WHITE && this.board[row][col + 2] != EMPTY) ||
+                    	(this.board[row + 1][col + 1] == WHITE && this.board[row + 2][col + 2] != EMPTY) ||
+                    	(this.board[row + 1][col] == WHITE && this.board[row + 2][col] != EMPTY) ||
+                    	(this.board[row + 1][col - 1] == WHITE && this.board[row + 2][col - 2] != EMPTY)) {
+                	} else {
+                    	return false;
+                	}
+		}
             } else {
-                if ((this.board[row][col - 1] == BLACK && this.board[row][col - 2] != EMPTY) ||
+		
+	if(!(row - 1 < 0) && !(col - 1 < 0) && !(row - 2 < 0) && !(col - 2 < 0) && !(row + 1 > this.size - 1) && !(row + 2 > this.size - 1) && !(row + 1 > this.size -1) && !(col + 1 > this.size - 1) && !(col + 2 > this.size - 1)){ 
+
+		if ((this.board[row][col - 1] == BLACK && this.board[row][col - 2] != EMPTY) ||
                     (this.board[row - 1][col - 1] == BLACK && this.board[row - 2][col - 2] != EMPTY) ||
                     (this.board[row - 1][col] == BLACK && this.board[row - 2][col] != EMPTY) ||
                     (this.board[row - 1][col + 1] == BLACK && this.board[row - 2][col + 2] != EMPTY) ||
@@ -93,9 +99,11 @@ module.exports = class Board {
                     (this.board[row + 1][col + 1] == BLACK && this.board[row + 2][col + 2] != EMPTY) ||
                     (this.board[row + 1][col] == BLACK && this.board[row + 2][col] != EMPTY) ||
                     (this.board[row + 1][col - 1] == BLACK && this.board[row + 2][col - 2] != EMPTY)) {
+
                 } else {
                     return false;
                 }
+	}
             }
 
             // Checking for another disc going left
@@ -112,44 +120,49 @@ module.exports = class Board {
 
             // Checking for another disc going right
             validDirection = false;
-            if (this.board[row][col + 1] != EMPTY && (col + 1) != 8) {
-                for (let temp = col + 1; temp < 8; temp++) {
+            if (this.board[row][col + 1] != EMPTY && (col + 1) != this.size) {
+                for (let temp = col + 1; temp < this.size; temp++) {
                     if (this.board[row][temp] == disc) validDirection = true;
                 }
-                for (let rightCol = col + 1; rightCol < 8; rightCol++) {
-                    if (this.board[row][rightCol] != disc && this.board[row][rightCol + 1] != EMPTY && (rightCol + 1) != 8 && validDirection) {
+                for (let rightCol = col + 1; rightCol < this.size; rightCol++) {
+                    if (this.board[row][rightCol] != disc && this.board[row][rightCol + 1] != EMPTY && (rightCol + 1) != this.size && validDirection) {
                         return true;
                     }
                 }
             }
 
             // Checking for another disc going up
-            validDirection = false;
-            if (this.board[row - 1][col] != EMPTY && (row - 1) != 0) {
-                for (let i = row - 1; i > 0; i--) {
-                    if (this.board[i][col] == disc) validDirection = true;
-                }
-                for (let upRow = row - 1; upRow > 0; upRow--) {
-                    if (this.board[upRow][col] != disc && this.board[upRow - 1][col] != EMPTY && (upRow - 1) != 0 && validDirection) {
-                        return true;
-                    }
-                }
-            }
+		if(row - 1 > 0){
+            	validDirection = false;
+            	if (this.board[row - 1][col] != EMPTY && (row - 1) != 0) {
+                	for (let i = row - 1; i > 0; i--) {
+                    	if (this.board[i][col] == disc) validDirection = true;
+                	}
+                	for (let upRow = row - 1; upRow > 0; upRow--) {
+                    		if (this.board[upRow][col] != disc && this.board[upRow - 1][col] != EMPTY && (upRow - 1) != 0 && validDirection) {
+                       	 		return true;
+                    		}
+                	}
+            	}
+		}
 
             // Checking for another disc going down
+	if(row != this.size -1){
             validDirection = false;
-            if (this.board[row + 1][col] != EMPTY && (row + 1) != 8) {
-                for (let upRow = row + 1; upRow < 8; upRow++) {
-                    for (let i = row + 1; i < 8; i++) {
+            if (this.board[row + 1][col] != EMPTY && (row + 1) != this.size) {
+                for (let upRow = row + 1; upRow < this.size-1; upRow++) {
+                    for (let i = row + 1; i < this.size; i++) {
                         if (this.board[i][col] == disc) validDirection = true;
                     }
-                    if (this.board[upRow][col] != disc && this.board[upRow + 1][col] != EMPTY && (upRow + 1) != 8 && validDirection) {
+                    if (this.board[upRow][col] != disc && this.board[(upRow + 1)][col] != EMPTY && (upRow + 1) != this.size && validDirection) {
                         return true;
                     }
                 }
             }
+	}
 
             // Checking for another disc going diagonal up left
+		if(row - 1 > 0 && col + 1 > 0){
             validDirection = false;
             if (this.board[row - 1][col - 1] != EMPTY && (col - 1) != 0 && (row - 1) != 0) {
 
@@ -171,23 +184,24 @@ module.exports = class Board {
                     count++;
                 }
             }
+	}
 
             // Checking for another disc going diagonal down right
             validDirection = false;
-            if (this.board[row + 1][col + 1] != EMPTY && (col + 1) != 8 && (row + 1) != 8) {
+            if (this.board[row + 1][col + 1] != EMPTY && (col + 1) != 8 && (row + 1) != this.size) {
 
                 // Checks whether row or col is smaller
                 let downDiagRight, currentLocation = 0, count = 1;
                 if (row >= col) downDiagRight = row;
                 else downDiagRight = col;
 
-                for (let i = downDiagRight; i < 8; i++) {
+                for (let i = downDiagRight; i < this.size; i++) {	
                     if (this.board[row + count][col + count] == disc) validDirection = true;
                     count++;
                 }
                 count = 1;
-                for (downDiagRight; downDiagRight < 8; downDiagRight++) {
-                    if (this.board[row + count][col + count] != disc && (col + count) != 8 && (row + count) != 8 && validDirection) {
+                for (downDiagRight; downDiagRight < this.size; downDiagRight++) {
+                    if (this.board[row + count][col + count] != disc && (col + count) != this.size && (row + count) != this.size && validDirection) {
                         return true;
                     }
                     currentLocation++;
@@ -197,7 +211,7 @@ module.exports = class Board {
 
             // Checking for another disc going diagonal down left
             validDirection = false;
-            if (this.board[row + 1][col - 1] != EMPTY && (col - 1) != 0 && (row + 1) != 8) {
+            if (this.board[row + 1][col - 1] != EMPTY && (col - 1) != 0 && (row + 1) != this.size) {
 
                 // Checks if row + col is less than 10 to know where the cut off is
                 let downDiagLeft, currentLocation = 0, count = 1;
@@ -209,7 +223,7 @@ module.exports = class Board {
                     }
                     count = 1;
                     for (downDiagLeft; downDiagLeft > 0; downDiagLeft--) {
-                        if (this.board[row + count][col - count] != disc && (col - count) != 0 && (row + count) != 8 && validDirection) {
+                        if (this.board[row + count][col - count] != disc && (col - count) != 0 && (row + count) != this.size && validDirection) {
                             return true;
                         }
                         currentLocation++;
@@ -218,13 +232,13 @@ module.exports = class Board {
 
                 } else {
                     downDiagLeft = row;
-                    for (let i = downDiagLeft; i < 8; i++) {
+                    for (let i = downDiagLeft; i < this.size; i++) {
                         if (this.board[row + count][col - count] == disc) validDirection = true;
                         count++;
                     }
                     count = 1;
-                    for (downDiagLeft; downDiagLeft < 8; downDiagLeft++) {
-                        if (this.board[row + count][col - count] != disc && (col - count) != 0 && (row + count) != 8 && validDirection) {
+                    for (downDiagLeft; downDiagLeft < this.size; downDiagLeft++) {
+                        if (this.board[row + count][col - count] != disc && (col - count) != 0 && (row + count) != this.size && validDirection) {
                             return true;
                         }
                         currentLocation++;
@@ -235,7 +249,7 @@ module.exports = class Board {
 
             // Checking for another disc going diagonal up right
             validDirection = false;
-            if (this.board[row - 1][col + 1] != EMPTY && (col + 1) != 8 && (row - 1) != 0) {
+            if (this.board[row - 1][col + 1] != EMPTY && (col + 1) != this.size && (row - 1) != 0) {
 
                 // Checks if row + col is less than 10 to know how far to check
                 let upDiagRight, currentLocation = 0, count = 1;
@@ -247,7 +261,7 @@ module.exports = class Board {
                     }
                     count = 1;
                     for (upDiagRight; upDiagRight > 0; upDiagRight--) {
-                        if (this.board[row - count][col + count] != disc && (col + count) != 8 && (row - count) != 0 && validDirection) {
+                        if (this.board[row - count][col + count] != disc && (col + count) != this.size && (row - count) != 0 && validDirection) {
                             return true;
                         }
                         currentLocation++;
@@ -256,13 +270,13 @@ module.exports = class Board {
 
                 } else {
                     upDiagRight = col;
-                    for (let i = upDiagRight; i < 8; i++) {
+                    for (let i = upDiagRight; i < this.size; i++) {
                         if (this.board[row - count][col + count] == disc) validDirection = true;
                         count++;
                     }
                     count = 1;
-                    for (upDiagRight; upDiagRight < 8; upDiagRight++) {
-                        if (this.board[row - count][col + count] != disc && (col + count) != 8 && (row - count) != 0 && validDirection) {
+                    for (upDiagRight; upDiagRight < this.size; upDiagRight++) {
+                        if (this.board[row - count][col + count] != disc && (col + count) != this.size && (row - count) != 0 && validDirection) {
                             return true;
                         }
                         currentLocation++;
@@ -300,12 +314,12 @@ module.exports = class Board {
 
         validDirection = false;
         // Checking for flips going right
-        if (this.board[row][col + 1] != EMPTY && (col + 1) != 8) {
-            for (let temp = col + 1; temp < 8; temp++) {
+        if (this.board[row][col + 1] != EMPTY && (col + 1) != this.size) {
+            for (let temp = col + 1; temp < this.size; temp++) {
                 if (this.board[row][temp] == disc) validDirection = true;
             }
-            for (let rightCol = col + 1; rightCol < 8; rightCol++) {
-                if (this.board[row][rightCol] != disc && this.board[row][rightCol] != EMPTY && (rightCol) != 8 && validDirection) {
+            for (let rightCol = col + 1; rightCol < this.size; rightCol++) {
+                if (this.board[row][rightCol] != disc && this.board[row][rightCol] != EMPTY && (rightCol) != this.size && validDirection) {
                     this.board[row][rightCol] = disc;
                 } else break;
             }
@@ -313,6 +327,7 @@ module.exports = class Board {
 
         validDirection = false;
         // Checking for flips going up
+	if(row - 1 > 0){
         if (this.board[row - 1][col] != EMPTY && (row - 1) != 0) {
             for (let i = row - 1; i > 0; i--) {
                 if (this.board[i][col] == disc) validDirection = true;
@@ -323,21 +338,33 @@ module.exports = class Board {
                 } else break;
             }
         }
+	}
 
         validDirection = false;
         // Checking for flips going down
-        if (this.board[row + 1][col] != EMPTY && (row + 1) != 8) {
-            for (let i = row + 1; i < 8; i++) {
+      //  if (this.board[row + 1][col] != EMPTY && (row + 1) != this.size) {
+      //      for (let i = row + 1; i < this.size; i++) {
+      //          if (this.board[i][col] == disc) validDirection = true;
+      //      }
+      //      for (let upRow = row + 1; upRow < this.size; upRow++) {
+      //          if (this.board[upRow][col] != disc && this.board[upRow + 1][col] != EMPTY && (upRow) != this.size && validDirection) {
+      //              this.board[upRow][col] = disc;
+      //          } else break;
+      //      }
+      //  }
+
+ if (this.board[row][col] != EMPTY && (row) != this.size) {
+            for (let i = row; i < this.size - 1; i++) {
                 if (this.board[i][col] == disc) validDirection = true;
             }
-            for (let upRow = row + 1; upRow < 8; upRow++) {
-                if (this.board[upRow][col] != disc && this.board[upRow + 1][col] != EMPTY && (upRow) != 8 && validDirection) {
+            for (let upRow = row; upRow < this.size - 1; upRow++) {
+                if (this.board[upRow][col] != disc && this.board[upRow + 1][col] != EMPTY && (upRow) != this.size && validDirection) {
                     this.board[upRow][col] = disc;
                 } else break;
             }
         }
-
         // Checking for flips going  up left
+	if(row - 1 > 0 && col - 1 > 0){
         validDirection = false;
         if (this.board[row - 1][col - 1] != EMPTY && (col - 1) != 0 && (row - 1) != 0) {
 
@@ -360,24 +387,47 @@ module.exports = class Board {
                 } else break;
             }
         }
+	}
 
         // Checking for flips going diagonal down right
         validDirection = false;
-        if (this.board[row + 1][col + 1] != EMPTY && (col + 1) != 8 && (row + 1) != 8) {
+     //   if (this.board[row + 1][col + 1] != EMPTY && (col + 1) != 8 && (row + 1) != this.size) {
+
+     //       // Checks whether row or col is smaller
+     //       let downDiagRight, currentLocation = 0, count = 1;
+     //       if (row >= col) downDiagRight = row;
+     //       else downDiagRight = col;
+
+     //       for (let i = downDiagRight; i < this.size - 1; i++) {
+     //           if (this.board[row + count][col + count] == disc) validDirection = true;
+     //           count++;
+     //       }
+     //       count = 1;
+     //       for (downDiagRight; downDiagRight < this.size; downDiagRight++) {
+     //           if ((this.board[row + count][col + count] == disc || this.board[row + count][col + count] != EMPTY) &&
+     //               (col + count) != this.size && (row + count) != this.size && validDirection) {
+     //               this.board[row + currentLocation][col + currentLocation] = disc;
+     //               currentLocation++;
+     //               count++;
+     //           } else break;
+     //       }
+     //   }
+
+	  if (this.board[row][col] != EMPTY && (col) != 8 && (row) != this.size) {
 
             // Checks whether row or col is smaller
             let downDiagRight, currentLocation = 0, count = 1;
             if (row >= col) downDiagRight = row;
             else downDiagRight = col;
 
-            for (let i = downDiagRight; i < 8; i++) {
+            for (let i = downDiagRight; i < this.size - 1; i++) {
                 if (this.board[row + count][col + count] == disc) validDirection = true;
                 count++;
             }
             count = 1;
-            for (downDiagRight; downDiagRight < 8; downDiagRight++) {
+            for (downDiagRight; downDiagRight < this.size - 1; downDiagRight++) {
                 if ((this.board[row + count][col + count] == disc || this.board[row + count][col + count] != EMPTY) &&
-                    (col + count) != 8 && (row + count) != 8 && validDirection) {
+                    (col + count) != this.size && (row + count) != this.size && validDirection) {
                     this.board[row + currentLocation][col + currentLocation] = disc;
                     currentLocation++;
                     count++;
@@ -385,49 +435,88 @@ module.exports = class Board {
             }
         }
 
-        // Checking for flips going diagonal down left
-        // validDirection = false;
-        // if (this.board[row + 1][col - 1] != EMPTY && (col - 1) != 0 && (row + 1) != 8) {
-        //
-        //     // Checks if row + col is less than 10 to know where the cut off is
-        //     let downDiagLeft, currentLocation = 0, count = 1;
-        //     if (row + col < 10) {
-        //         downDiagLeft = col;
-        //         for (let i = downDiagLeft; i > 0; i--) {
-        //             if (this.board[row + count][col - count] == disc) validDirection = true;
-        //             count++;
-        //         }
-        //         count = 1;
-        //         for (downDiagLeft; downDiagLeft > 0; downDiagLeft--) {
-        //             if ((this.board[row + count][col - count] == disc || this.board[row + count][col - count] != EMPTY) &&
-        //                 (col - count) != 0 && (row + count) != 8 && validDirection) {
-        //                 this.board[row + currentLocation][col - currentLocation] = disc;
-        //                 currentLocation++;
-        //                 count++;
-        //             } else break;
-        //         }
-        //
-        //     } else {
-        //         downDiagLeft = row;
-        //         for (let i = downDiagLeft; i < 8; i++) {
-        //             if (this.board[row + count][col - count] == disc) validDirection = true;
-        //             count++;
-        //         }
-        //         count = 1;
-        //         for (downDiagLeft; downDiagLeft < 8; downDiagLeft++) {
-        //             if ((this.board[row + count][col - count] == disc || this.board[row + count][col - count] != EMPTY) &&
-        //                 (col - count) != 0 && (row + count) != 8 && validDirection) {
-        //                 this.board[row + currentLocation][col - currentLocation] = disc;
-        //                 currentLocation++;
-        //                 count++;
-        //             } else break;
-        //         }
-        //     }
-        // }
+         //Checking for flips going diagonal down left
+         validDirection = false;
+      //   if (this.board[row + 1][col - 1] != EMPTY && (col - 1) != 0 && (row + 1) != this.size) {
+        
+     //        // Checks if row + col is less than 10 to know where the cut off is
+     //        let downDiagLeft, currentLocation = 0, count = 1;
+     //        if (row + col < 10) {
+     //            downDiagLeft = col;
+     //            for (let i = downDiagLeft; i > 1; i--) {
+     //                if (this.board[row + count][col - count] == disc) validDirection = true;
+     //                count++;
+     //            }
+     //            count = 1;
+     //            for (downDiagLeft; downDiagLeft > 0; downDiagLeft--) {
+     //                if ((this.board[row + count][col - count] == disc || this.board[row + count][col - count] != EMPTY) &&
+     //                    (col - count) != 0 && (row + count) != this.size && validDirection) {
+     //                    this.board[row + currentLocation][col - currentLocation] = disc;
+     //                    currentLocation++;
+     //                    count++;
+     //                } else break;
+     //            }
+        
+     //        } else {
+     //            downDiagLeft = row;
+     //            for (let i = downDiagLeft; i < this.size - 1; i++) {
+     //                if (this.board[row + count][col - count] == disc) validDirection = true;
+     //                count++;
+     //            }
+     //            count = 1;
+     //            for (downDiagLeft; downDiagLeft < this.size; downDiagLeft++) {
+     //                if ((this.board[row + count][col - count] == disc || this.board[row + count][col - count] != EMPTY) &&
+     //                    (col - count) != 0 && (row + count) != this.size && validDirection) {
+     //                    this.board[row + currentLocation][col - currentLocation] = disc;
+     //                    currentLocation++;
+     //                    count++;
+     //                } else break;
+     //            }
+     //        }
+     //    }
+
+	if (this.board[row][col - 1] != EMPTY && (col - 1) != 0 && (row) != this.size) {
+         
+             // Checks if row + col is less than 10 to know where the cut off is
+             let downDiagLeft, currentLocation = 0, count = 1;
+             if (row + col < 10) {
+                 downDiagLeft = col;
+                 for (let i = downDiagLeft; i > 2; i--) {
+                     if (this.board[row + count][col - count] == disc) validDirection = true;
+                     count++;
+                 }   
+                 count = 1;
+                 for (downDiagLeft; downDiagLeft > 0; downDiagLeft--) {
+                     if ((this.board[row + count][col - count] == disc || this.board[row + count][col - count] != EMPTY) &&
+                         (col - count) != 0 && (row + count) != this.size && validDirection) {
+                         this.board[row + currentLocation][col - currentLocation] = disc;
+                         currentLocation++;
+                         count++;
+                     } else break;
+                 }   
+                 
+             } else {
+                 downDiagLeft = row;
+                 for (let i = downDiagLeft; i < this.size - 1; i++) {
+                     if (this.board[row + count][col - count] == disc) validDirection = true;
+                     count++;
+                 }   
+                 count = 1;
+                 for (downDiagLeft; downDiagLeft < this.size; downDiagLeft++) {
+                     if ((this.board[row + count][col - count] == disc || this.board[row + count][col - count] != EMPTY) &&
+                         (col - count) != 0 && (row + count) != this.size && validDirection) {
+                         this.board[row + currentLocation][col - currentLocation] = disc;
+                         currentLocation++;
+                         count++;
+                     } else break;
+                 }   
+             }   
+         } 
 
         // Checking for flips going diagonal up right
+	if(row -1 > 0 && col + 1 < this.size -1){
         validDirection = false;
-        if (this.board[row - 1][col + 1] != EMPTY && (col + 1) != 8 && (row - 1) != 0) {
+        if (this.board[row - 1][col + 1] != EMPTY && (col + 1) != this.size && (row - 1) != 0) {
 
             // Checks if row + col is less than 10 to know how far to check
             let upDiagRight, currentLocation = 0, count = 1;
@@ -440,23 +529,24 @@ module.exports = class Board {
                 count = 1;
                 for (upDiagRight; upDiagRight > 0; upDiagRight--) {
                     if ((this.board[row - count][col + count] == disc || this.board[row - count][col + count] != EMPTY) &&
-                        (col + count) != 8 && (row - count) != 0 && validDirection) {
+                        (col + count) != this.size && (row - count) != 0 && validDirection) {
                         this.board[row - currentLocation][col + currentLocation] = disc;
                         currentLocation++;
                         count++;
                     } else break;
                 }
 
-            } else {
+           } 
+		} else {
                 upDiagRight = col;
-                for (let i = upDiagRight; i < 8; i++) {
+                for (let i = upDiagRight; i < this.size; i++) {
                     if (this.board[row - count][col + count] == disc) validDirection = true;
                     count++;
                 }
                 count = 1;
-                for (upDiagRight; upDiagRight < 8; upDiagRight++) {
+                for (upDiagRight; upDiagRight < this.size; upDiagRight++) {
                     if ((this.board[row - count][col + count] == disc || this.board[row - count][col + count] != EMPTY) &&
-                        (col + count) != 8 && (row - count) != 0 && validDirection) {
+                        (col + count) != this.size && (row - count) != 0 && validDirection) {
                         this.board[row - currentLocation][col + currentLocation] = disc;
                         currentLocation++;
                         count++;
@@ -465,7 +555,7 @@ module.exports = class Board {
             }
         }
     }
-
+	
     /**
      * isValidMoveAvailable
      * @param disc A character pertaining to a disc color.
@@ -478,8 +568,8 @@ module.exports = class Board {
         let possibleMoves = 0;
 
         // loops through each space on the board and checks if current disc could be placed
-        for (let row = 1; row <= this.width; row++) {
-            for (let col = 1; col <= this.height; col++) {
+        for (let row = 1; row <= this.size; row++) {
+            for (let col = 1; col <= this.size; col++) {
                 possibleMoves++;
             }
         }
@@ -494,8 +584,8 @@ module.exports = class Board {
      * @return boolean Whether or not the board is full.
      */
     isBoardFull() {
-        for (let row = 1; row <= this.width; row++) {
-            for (let col = 1; col <= this.height; col++) {
+        for (let row = 1; row <= this.size; row++) {
+            for (let col = 1; col <= this.size; col++) {
                 if (this.board[row][col] == EMPTY) {
                     return false;
                 }
@@ -525,8 +615,8 @@ module.exports = class Board {
         let countBlack = 0;
         let countWhite = 0;
 
-        for (let row = 1; row <= SIZE; row++) {
-            for (let col = 1; col <= SIZE; col++) {
+        for (let row = 1; row <= this.size; row++) {
+            for (let col = 1; col <= this.size; col++) {
                 if (board[row][col] == WHITE)
                     countWhite++;
                 if (board[row][col] == BLACK) {
