@@ -14,7 +14,6 @@ module.exports = class Board {
      */
     constructor(size) {
         this.size = size;
-        //this.width = width;
         this.board = [];
         for (let i = 0; i < this.size; ++i) {
             let tmp = [];
@@ -30,6 +29,21 @@ module.exports = class Board {
             this.board.push(tmp);
         }
     }
+
+	load(fromFile){
+
+		this.size = fromFile.size;
+		this.board = [];
+		for(let i = 0; i < this.size ; ++i){
+			let tmp = [];
+			for(let j = 0; j < fromFile.board[i].length; ++j){
+				if(fromFile.board[i][j] == 'B') tmp.push(BLACK);
+				else if(fromFile.board[i][j] == 'W') tmp.push(WHITE);
+				else tmp.push(EMPTY);
+			}
+			this.board.push(tmp);
+		}
+	}
 
     /**
      * Print a representation of the board to the terminal.
@@ -353,7 +367,7 @@ module.exports = class Board {
       //      }
       //  }
 
- if (this.board[row][col] != EMPTY && (row) != this.size) {
+ 	if (this.board[row][col] != EMPTY && (row) != this.size) {
             for (let i = row; i < this.size - 1; i++) {
                 if (this.board[i][col] == disc) validDirection = true;
             }
@@ -475,7 +489,7 @@ module.exports = class Board {
      //        }
      //    }
 
-	if (this.board[row][col - 1] != EMPTY && (col - 1) != 0 && (row) != this.size) {
+	if (this.board[row - 1][col - 1] != EMPTY && (col - 1) != 0 && (row) != this.size) {
          
              // Checks if row + col is less than 10 to know where the cut off is
              let downDiagLeft, currentLocation = 0, count = 1;
@@ -516,7 +530,7 @@ module.exports = class Board {
         // Checking for flips going diagonal up right
 	if(row -1 > 0 && col + 1 < this.size -1){
         validDirection = false;
-        if (this.board[row - 1][col + 1] != EMPTY && (col + 1) != this.size && (row - 1) != 0) {
+        //if (this.board[row - 1][col + 1] != EMPTY && (col + 1) != this.size && (row - 1) != 0) {
 
             // Checks if row + col is less than 10 to know how far to check
             let upDiagRight, currentLocation = 0, count = 1;
@@ -536,7 +550,7 @@ module.exports = class Board {
                     } else break;
                 }
 
-           } 
+          // } 
 		} else {
                 upDiagRight = col;
                 for (let i = upDiagRight; i < this.size; i++) {

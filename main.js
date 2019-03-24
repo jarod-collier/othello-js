@@ -27,9 +27,13 @@ function saveFile(file, contents) {
  * @return contents - The object converted from JSON.
  */
 function loadFile(file) {
+
    let fs = require('fs');
-   let contents = fs.readFileSync(file);
-   return contents; 
+   let contents = fs.readFileSync('test.json', 'utf8');
+   let parsed = JSON.parse(contents);
+   let newBoard = new board(this.size);
+   newBoard.load(parsed);
+   return newBoard; 
 }
 
 /**
@@ -49,20 +53,6 @@ function start() {
 		}
 	}
 
-
-
-    //let width = 1;
-
-//	while(width % 2 != 0 || width < 4){
-//		width =prompt('What width for your board? ');
-	
-//		if(width %2 != 0){
-  //                      console.log("width has to be even");
-    //            }else if(width < 4){
-//			console.log("width has to be 4 at least");
-//		}
-//	}
-
     	let color = "";
 	
 	while(color != "B" && color != "W"){
@@ -81,6 +71,10 @@ function start() {
 
     console.log("\nIf at any point you would like to stop playing, enter in (0, 0) for the row and column");
 
+    console.log("\nIf at any point you would like to load the perviously saved board, enter in (-1, -1) for row and column ");
+
+    console.log("\nIf at any point you would like to save the board, enter in (-2, -2) for row and column ");
+
     // Create new board object
     let myBoard = new board(size);
 
@@ -95,10 +89,20 @@ function start() {
 
             row = parseInt(prompt("Row "));
             col = parseInt(prompt("Col "));
-
-		console.log(typeof(row) + "value: "+ row);
-		console.log(typeof(col) + "value: "+ col);
 	
+	    if(row == -1 && col == -1){
+                myBoard = loadFile("test.json");
+                console.log("BOARD LOADED");
+		myBoard.printBoard();
+                continue;
+            }
+
+	    if(row == -2 && col == -2){
+                saveFile("test.json", myBoard);
+                console.log("BOARD SAVED");
+                continue;
+            }
+
             // checks for row and column being in the correct range
             if (row < 0 || row > myBoard.size || col < 0 || col > myBoard.size) {
                 console.log("Sorry, your row and column were not valid entries.");
@@ -110,6 +114,7 @@ function start() {
                 console.log("Game is now ending. Thanks for playing!");
                 process.exit();
             }
+
             row--;
             col--;
             if (!myBoard.isValid(row, col, color)) {
@@ -131,9 +136,6 @@ function start() {
         console.log("Game is over. No winner.");
     }
 
-
-    // Save board example code.
-    saveFile("test.json", myBoard);
 }
 
 console.clear();
