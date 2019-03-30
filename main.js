@@ -90,14 +90,14 @@ function start() {
             row = parseInt(prompt("Row "));
             col = parseInt(prompt("Col "));
 	
-	    if(row == -1 && col == -1){
+	    if(row === -1 && col === -1){
                 myBoard = loadFile("test.json");
                 console.log("BOARD LOADED");
 		myBoard.printBoard();
                 continue;
             }
 
-	    if(row == -2 && col == -2){
+	    if(row === -2 && col === -2){
                 saveFile("test.json", myBoard);
                 console.log("BOARD SAVED");
                 continue;
@@ -110,7 +110,7 @@ function start() {
             }
 
             // Exits the program if the user enters 0 and 0
-            if (row == 0 && col == 0) {
+            if (row === 0 && col === 0) {
                 console.log("Game is now ending. Thanks for playing!");
                 process.exit();
             }
@@ -125,12 +125,12 @@ function start() {
         } while (true);
         myBoard.placeDiskAt(row, col, color);
 
-        if (color == "B") color = "W";
+        if (color === "B") color = "W";
         else color = "B";
     }
 
     let winner = myBoard.checkWinner();
-    if (winner == "B" || winner == "W") {
+    if (winner === "B" || winner === "W") {
         console.log("Game is over. The winner is " + color);
     } else {
         console.log("Game is over. No winner.");
