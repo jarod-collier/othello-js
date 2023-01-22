@@ -3,7 +3,7 @@
  * Javascript project for CIS 343.
  * Command-line version of Othello.
  */
-
+// testing
 // Import our board definitions
 const board = require('./board.js');
 // Import a synchronous prompt library
